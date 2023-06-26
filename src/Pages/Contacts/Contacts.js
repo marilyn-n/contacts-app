@@ -17,7 +17,21 @@ import { AppCtx } from '../../context/appContext';
 const Contacts = () => {
     const { contacts } = useContext(AppCtx);
 
-    console.log(contacts);
+    const renderContacts = contacts.map(contactInfo => (
+        <ListItem key={contactInfo.id} secondaryAction={
+            <IconButton edge="end" aria-label="delete">
+                <DeleteIcon />
+            </IconButton>
+        }>
+            <ListItemAvatar>
+                <Avatar>
+                    <ImageIcon />
+                </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={`${contactInfo.firstName} ${contactInfo.lastName}`} secondary="Jan 9, 2014" />
+        </ListItem>
+    ));
+
 
     return (
         <>
@@ -28,50 +42,13 @@ const Contacts = () => {
                 <Grid item xs={8}>
                     <Box display='flex' alignItems='center'>
                         <Typography sx={{ margin: '2rem 0' }}>All Contacts </Typography>
-                        <Chip label="3" sx={{ marginLeft: '.5rem' }} />
+                        <Chip label={`${contacts.length > 0 ? contacts.length : 0}`} sx={{ marginLeft: '.5rem' }} />
                     </Box>
                     <List sx={{ margin: '0 auto', bgcolor: 'background.paper' }}>
-                        <ListItem secondaryAction={
-                            <IconButton edge="end" aria-label="delete">
-                                <DeleteIcon />
-                            </IconButton>
-                        }>
-                            <ListItemAvatar>
-                                <Avatar>
-                                    <ImageIcon />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText primary="Contact Name" secondary="Jan 9, 2014" />
-                        </ListItem>
-                        <ListItem secondaryAction={
-                            <IconButton edge="end" aria-label="delete">
-                                <DeleteIcon />
-                            </IconButton>
-                        }>
-                            <ListItemAvatar>
-                                <Avatar>
-                                    <ImageIcon />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText primary="Contact Name" secondary="Jan 9, 2014" />
-                        </ListItem>
-                        <ListItem secondaryAction={
-                            <IconButton edge="end" aria-label="delete">
-                                <DeleteIcon />
-                            </IconButton>
-                        }>
-                            <ListItemAvatar>
-                                <Avatar>
-                                    <ImageIcon />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText primary="Contact Name" secondary="Jan 9, 2014" />
-                        </ListItem>
+                        {renderContacts}
                     </List>
                 </Grid>
-
             </Grid>
-
         </>
 
     )
