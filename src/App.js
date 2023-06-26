@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Dashboard from './Pages/Dashboard/Dashboard';
-import Contacts from "./Pages/Contacts/Contacts";
+import Dashboard from './pages/dashboard/Dashboard';
+import Contacts from "./pages/contacts/Contacts";
 import Stack from '@mui/material/Stack';
 import Link from '@mui/material/Link';
 import { Button, Box } from "@mui/material";
+import Modal from './components/Modal';
 
 const App = () => {
+    const [open, setOpen] = useState(false);
+
+    const handleClickOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+
     return (
         <>
             <Router>
@@ -20,7 +27,7 @@ const App = () => {
                         </Link>
                     </Stack>
                     <Stack direction="row" alignItems='center'>
-                        <Button variant="contained" size="small" disableElevation={true}>Add New Contact</Button>
+                        <Button variant="contained" size="small" disableElevation={true} onClick={handleClickOpen}>New Contact</Button>
                     </Stack>
                 </Box>
                 <Routes>
@@ -28,6 +35,9 @@ const App = () => {
                     <Route path='/contacts' element={<Contacts />} />
                 </Routes>
             </Router>
+
+            <Modal handleClose={handleClose} open={open} />
+
         </>
     )
 }

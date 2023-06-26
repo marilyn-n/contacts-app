@@ -1,10 +1,13 @@
 import React from "react";
+import Grid from "@mui/material/Grid";
 
 const Dashboard = () => {
     return (
-        <div>
-            Dashboard
-        </div>
+        <Grid container justifyContent='center'>
+            <Grid item xs={8}>
+                Dashboard
+            </Grid>
+        </Grid>
     )
 }
 
