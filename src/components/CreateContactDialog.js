@@ -9,6 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
 import { AppCtx } from '../context/appContext';
+import moment from 'moment';
 
 const CreateContactDialog = (props) => {
     const { handleClose, open } = props;
@@ -27,6 +28,8 @@ const CreateContactDialog = (props) => {
     }
 
     const addNewContact = (item) => {
+        clearForm();
+        handleClose();
         const newContact = {
             ...item,
             id: crypto.randomUUID(),
@@ -41,6 +44,15 @@ const CreateContactDialog = (props) => {
         lastName: '',
         mobile: '',
     });
+
+    const handleCancel = () => {
+        clearForm();
+        handleClose();
+    }
+
+    useEffect(() => {
+        localStorage.setItem('storedContacts', JSON.stringify(contacts));
+    }, [contacts]);
 
     return (
         <Dialog open={open} onClose={handleClose}>
@@ -84,7 +96,7 @@ const CreateContactDialog = (props) => {
                 />
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose}>Cancel</Button>
+                <Button onClick={handleCancel}>Cancel</Button>
                 <Button onClick={() => addNewContact(contact)}>Add</Button>
             </DialogActions>
         </Dialog>

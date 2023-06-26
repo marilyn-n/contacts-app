@@ -4,7 +4,10 @@ const AppCtx = createContext();
 
 const AppProvider = ({ children }) => {
     const [editMode, setEditMode] = useState(false);
-    const [contacts, setContacts] = useState([]);
+    const [contacts, setContacts] = useState(() => {
+        const storage = JSON.parse(localStorage.getItem('storedContacts'));
+        return storage ? storage : [];
+    });
 
     const contextValue = {
         editMode,

@@ -13,25 +13,27 @@ import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
 import { AppCtx } from '../../context/appContext';
+import moment from 'moment';
+
 
 const Contacts = () => {
-    const { contacts } = useContext(AppCtx);
+    const { contacts, editMode } = useContext(AppCtx);
 
     const renderContacts = contacts.map(contactInfo => (
         <ListItem key={contactInfo.id} secondaryAction={
-            <IconButton edge="end" aria-label="delete">
-                <DeleteIcon />
-            </IconButton>
+            editMode ?
+                <IconButton edge="end" aria-label="delete">
+                    <DeleteIcon />
+                </IconButton> : null
         }>
             <ListItemAvatar>
                 <Avatar>
                     <ImageIcon />
                 </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={`${contactInfo.firstName} ${contactInfo.lastName}`} secondary="Jan 9, 2014" />
-        </ListItem>
+            <ListItemText primary={`${contactInfo.firstName} ${contactInfo.lastName}`} secondary={`${moment(contactInfo.date).format('LLL')}`} />
+        </ListItem >
     ));
-
 
     return (
         <>
