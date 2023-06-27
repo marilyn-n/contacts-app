@@ -16,17 +16,34 @@ import Box from '@mui/material/Box';
 import { AppCtx } from '../../context/appContext';
 import moment from 'moment';
 
-
-
 const Contacts = () => {
     const { contacts, setContacts, editMode, setEditMode } = useContext(AppCtx);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filteredItems, setFilteredItems] = useState([]);
 
     const deleteContact = (item) => {
         const updatedContacts = contacts.filter((contact) => contact.id !== item.id);
-        setContacts(updatedContacts);
+        setContacts([...updatedContacts]);
     }
 
-    const renderContacts = contacts.map(contactInfo => (
+    const handleChange = (e) => {
+        setSearchTerm((e.target.value));
+    }
+
+    const search = (e) => {
+        const matches = contacts.filter(contact => (`${contact.firstName} ${contact.lastName}`).toLowerCase().includes(searchTerm.toLowerCase()));
+        setFilteredItems(matches);
+    }
+
+    useEffect(() => {
+        search();
+    }, [searchTerm]);
+
+    useEffect(() => {
+        setFilteredItems(contacts)
+    }, [contacts]);
+
+    const renderContacts = filteredItems.map(contactInfo => (
         <ListItem key={contactInfo.id} secondaryAction={
             editMode ?
                 <IconButton edge="end" aria-label="delete" onClick={() => deleteContact(contactInfo)}>
@@ -46,7 +63,7 @@ const Contacts = () => {
         <>
             <Grid container justifyContent='center'>
                 <Grid item xs={6} sx={{ margin: '2rem 0' }}>
-                    <TextField fullWidth label="Search" id="fullWidth" />
+                    <TextField fullWidth label="Search" id="searchTerm" value={searchTerm} onChange={handleChange} />
                 </Grid>
                 <Grid item xs={8}>
                     <Box display='flex' alignItems='center' justifyContent='space-between'>

@@ -97,7 +97,7 @@ const CreateContactDialog = (props) => {
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleCancel}>Cancel</Button>
-                <Button onClick={() => addNewContact(contact)}>Add</Button>
+                <Button onClick={() => addNewContact(contact)} disabled={!contact.firstName && !contact.mobile}>Add</Button>
             </DialogActions>
         </Dialog>
     )

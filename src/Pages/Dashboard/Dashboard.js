@@ -5,7 +5,7 @@ const Dashboard = () => {
     return (
         <Grid container justifyContent='center'>
             <Grid item xs={8}>
-                Dashboard
+                Last added contacts, lists, hearted, stared
             </Grid>
         </Grid>
     )
