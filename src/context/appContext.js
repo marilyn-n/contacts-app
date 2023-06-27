@@ -8,6 +8,7 @@ const AppProvider = ({ children }) => {
         const storage = JSON.parse(localStorage.getItem('storedContacts'));
         return storage ? storage : [];
     });
+    const [staredContacts, setStaredContacts] = useState([]);
 
     const contextValue = {
         editMode,

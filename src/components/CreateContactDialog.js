@@ -18,6 +18,11 @@ const CreateContactDialog = (props) => {
         firstName: '',
         lastName: '',
         mobile: '',
+        email: '',
+        address: '',
+        groups: [],
+        // groups: [{ groupName: 'Stared' }, { groupName: 'Family' }],
+        isStared: true,
     });
 
     const handleChange = (e) => {
@@ -59,7 +64,7 @@ const CreateContactDialog = (props) => {
             <DialogTitle>New Contact</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    <Avatar sx={{ bgcolor: deepOrange[500], height: 80, width: 80, margin: '1rem auto', fontSize: 30 }}>N</Avatar>
+                    <Avatar src="/broken-image.jpg" sx={{ bgcolor: deepOrange[500], height: 80, width: 80, margin: '1rem auto', fontSize: 30 }} />
                 </DialogContentText>
                 <TextField
                     autoFocus
@@ -92,6 +97,39 @@ const CreateContactDialog = (props) => {
                     fullWidth
                     variant="outlined"
                     value={contact.mobile}
+                    onChange={handleChange}
+                />
+                <TextField
+                    autoFocus
+                    margin="dense"
+                    id="email"
+                    label="Email"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    value={contact.email}
+                    onChange={handleChange}
+                />
+                <TextField
+                    autoFocus
+                    margin="dense"
+                    id="address"
+                    label="Address"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    value={contact.address}
+                    onChange={handleChange}
+                />
+                <TextField
+                    autoFocus
+                    margin="dense"
+                    id="group"
+                    label="Add to group"
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    value={contact.groups}
                     onChange={handleChange}
                 />
             </DialogContent>
