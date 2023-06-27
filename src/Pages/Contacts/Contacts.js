@@ -8,6 +8,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
@@ -16,13 +17,19 @@ import { AppCtx } from '../../context/appContext';
 import moment from 'moment';
 
 
+
 const Contacts = () => {
-    const { contacts, editMode } = useContext(AppCtx);
+    const { contacts, setContacts, editMode, setEditMode } = useContext(AppCtx);
+
+    const deleteContact = (item) => {
+        const updatedContacts = contacts.filter((contact) => contact.id !== item.id);
+        setContacts(updatedContacts);
+    }
 
     const renderContacts = contacts.map(contactInfo => (
         <ListItem key={contactInfo.id} secondaryAction={
             editMode ?
-                <IconButton edge="end" aria-label="delete">
+                <IconButton edge="end" aria-label="delete" onClick={() => deleteContact(contactInfo)}>
                     <DeleteIcon />
                 </IconButton> : null
         }>
@@ -42,9 +49,18 @@ const Contacts = () => {
                     <TextField fullWidth label="Search" id="fullWidth" />
                 </Grid>
                 <Grid item xs={8}>
-                    <Box display='flex' alignItems='center'>
-                        <Typography sx={{ margin: '2rem 0' }}>All Contacts </Typography>
-                        <Chip label={`${contacts.length > 0 ? contacts.length : 0}`} sx={{ marginLeft: '.5rem' }} />
+                    <Box display='flex' alignItems='center' justifyContent='space-between'>
+                        <Box display='flex' alignItems='center'>
+                            <Typography sx={{ margin: '2rem 0' }}>All Contacts </Typography>
+                            <Chip label={`${contacts.length > 0 ? contacts.length : 0}`} sx={{ marginLeft: '.5rem' }} />
+                        </Box>
+                        <Box>
+                            {!editMode ?
+                                <Button size='small' onClick={() => setEditMode(true)}>Edit</Button>
+                                :
+                                <Button size='small' onClick={() => setEditMode(false)}>Done</Button>
+                            }
+                        </Box>
                     </Box>
                     <List sx={{ margin: '0 auto', bgcolor: 'background.paper' }}>
                         {renderContacts}
