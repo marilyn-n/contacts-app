@@ -63,7 +63,7 @@ const TheContacts = () => {
     const toggleStar = (theContactInfo, toggleStar) => {
         const newContacts = contacts.map(contact => {
             if (contact.id === theContactInfo.id) {
-                return { ...theContactInfo, 'isStared': toggleStar }
+                return { ...theContactInfo, 'isStared': toggleStar, updatedDate: new Date() }
             }
             return contact;
         });

@@ -39,7 +39,7 @@ const CreateContactDialog = (props) => {
         const newContact = {
             ...item,
             id: crypto.randomUUID(),
-            date: new Date(),
+            createdDate: new Date(),
         }
 
         setContacts([...contacts, newContact]);
