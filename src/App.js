@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Dashboard from './pages/dashboard/Dashboard';
-import Contacts from './pages/contacts/Contacts';
+import TheDashboard from './pages/dashboard/TheDashboard';
+import TheContacts from './pages/contacts/TheContacts';
 import Stack from '@mui/material/Stack';
 import Link from '@mui/material/Link';
 import { Button, Box } from "@mui/material";
@@ -31,8 +31,8 @@ const App = () => {
                     </Stack>
                 </Box>
                 <Routes>
-                    <Route exact path='/' element={<Dashboard />} />
-                    <Route path='/contacts' element={<Contacts />} />
+                    <Route exact path='/' element={<TheDashboard />} />
+                    <Route path='/contacts' element={<TheContacts />} />
                 </Routes>
             </Router>
 

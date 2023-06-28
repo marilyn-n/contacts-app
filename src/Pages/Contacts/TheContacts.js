@@ -49,7 +49,7 @@ function TabPanel(props) {
     );
 }
 
-const Contacts = () => {
+const TheContacts = () => {
     const { contacts, setContacts, editMode, setEditMode } = useContext(AppCtx);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredItems, setFilteredItems] = useState([]);
@@ -73,21 +73,28 @@ const Contacts = () => {
         setSearchTerm((e.target.value));
     }
 
-    const search = (e) => {
-        const matches = contacts.filter(contact => (`${contact.firstName} ${contact.lastName}`).toLowerCase().includes(searchTerm.toLowerCase()));
+    const search = () => {
+        const matches = contacts.filter((contact) => (`${contact.firstName} ${contact.lastName}`).toLowerCase().includes(searchTerm.toLowerCase()));
         setFilteredItems(matches);
     }
 
     useEffect(() => {
         search();
-    }, [searchTerm]);
+    }, [searchTerm, contacts]);
 
-    useEffect(() => {
-        setFilteredItems(contacts)
-    }, [contacts]);
+    const map = <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d240863.9978504921!2d-99.45510693850875!3d19.39079237487473!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85ce0026db097507%3A0x54061076265ee841!2sMexico%20City%2C%20CDMX!5e0!3m2!1sen!2smx!4v1687906913347!5m2!1sen!2smx" style={{ border: 0, width: '100%', height: 300 }} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
 
+    const toggleStar = (theContactInfo, toggleStar) => {
+        const newContacts = contacts.map(contact => {
+            if (contact.id === theContactInfo.id) {
+                return { ...theContactInfo, 'isStared': toggleStar }
+            }
+            return contact;
+        });
 
-    const map = <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d240863.9978504921!2d-99.45510693850875!3d19.39079237487473!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85ce0026db097507%3A0x54061076265ee841!2sMexico%20City%2C%20CDMX!5e0!3m2!1sen!2smx!4v1687906913347!5m2!1sen!2smx" style={{ border: 0, width: '100%', height: 300 }} allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        setContacts(newContacts);
+    }
+
 
     return (
         <>
@@ -124,6 +131,7 @@ const Contacts = () => {
                                 {filteredItems.map((item, i) => {
                                     return (
                                         <Tab
+                                            key={item.id}
                                             label={
                                                 <ContactItem
                                                     key={item.id} data={item}
@@ -141,7 +149,7 @@ const Contacts = () => {
                 </Grid>
                 <Grid item xs={4}>
                     {filteredItems.map((item, i) => {
-                        return <TabPanel value={value} index={i}>
+                        return <TabPanel value={value} index={i} key={item.id}>
                             <Grid container direction='column'>
                                 <Grid item display='flex' alignItems='center' flexDirection='column'>
                                     <Avatar sx={{ width: 150, height: 150 }}>
@@ -153,7 +161,8 @@ const Contacts = () => {
                                         <IconButton>
                                             <ModeEditIcon />
                                         </IconButton>
-                                        <IconButton>
+
+                                        <IconButton onClick={() => toggleStar(item, item.isStared ? false : true)}>
                                             {item.isStared ? <StarIcon sx={{ color: '#ffe600' }} /> : <StarBorder />}
                                         </IconButton>
                                     </Box>
@@ -204,7 +213,6 @@ const Contacts = () => {
                                                                 <ListItemButton sx={{ pl: 4 }}>
                                                                     <ListItemIcon>
                                                                         {group.groupName === 'Stared' ? <StarBorder /> : <Diversity1Icon />}
-
                                                                     </ListItemIcon>
                                                                     <ListItemText primary="Starred" />
                                                                 </ListItemButton>
@@ -217,7 +225,6 @@ const Contacts = () => {
                                     </List>
                                 </Grid>
                             </Grid>
-
                         </TabPanel>
                     })}
                 </Grid>
@@ -227,4 +234,4 @@ const Contacts = () => {
     )
 }
 
-export default Contacts;
+export default TheContacts;

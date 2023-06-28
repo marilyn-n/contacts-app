@@ -8,7 +8,10 @@ const AppProvider = ({ children }) => {
         const storage = JSON.parse(localStorage.getItem('storedContacts'));
         return storage ? storage : [];
     });
-    const [staredContacts, setStaredContacts] = useState([]);
+    const [groups, setGroups] = useState([
+        { id: 1, groupName: 'Family', participants: [{ firstName: 'Molly', lastName: 'Molly' }, { firstName: 'Mamrrandi', lastName: 'Casas' }], lastEditedOn: '06/16/2023', createdOn: '03/06/2023' },
+        { id: 2, groupName: 'BFF', participants: [{ firstName: 'Molly', lastName: 'Molly' }, { firstName: 'Mamrrandi', lastName: 'Casas' }], lastEditedOn: '06/26/2023', createdOn: '03/06/2023' }
+    ]);
 
     const contextValue = {
         editMode,

@@ -20,9 +20,10 @@ const CreateContactDialog = (props) => {
         mobile: '',
         email: '',
         address: '',
+        birthday: '',
         groups: [],
         // groups: [{ groupName: 'Stared' }, { groupName: 'Family' }],
-        isStared: true,
+        isStared: false,
     });
 
     const handleChange = (e) => {
@@ -110,6 +111,17 @@ const CreateContactDialog = (props) => {
                     value={contact.email}
                     onChange={handleChange}
                 />
+                {/* <TextField
+                    autoFocus
+                    margin="dense"
+                    id="birthday"
+                    label="Birthday"
+                    type="date"
+                    fullWidth
+                    variant="outlined"
+                    value={contact.birthday}
+                    onChange={handleChange}
+                /> */}
                 <TextField
                     autoFocus
                     margin="dense"
