@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import moment from 'moment';
 
-const ContactItem = (props) => {
+const ContactLi = (props) => {
     const { data, identifier, editMode, deleteContact } = props;
     return (
         <ListItem label={data.firstName} id={`vertical-tab-${identifier}`} sx={{ minWidth: '100%' }} key={data.id} secondaryAction={
@@ -28,4 +28,4 @@ const ContactItem = (props) => {
 
 }
 
-export default ContactItem;
+export default ContactLi;
