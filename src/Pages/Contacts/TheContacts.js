@@ -31,9 +31,8 @@ function TabPanel(props) {
     );
 }
 
-
 const TheContacts = () => {
-    const { contacts, setContacts, editMode, setEditMode } = useContext(AppCtx);
+    const { contacts, setContacts, editMode, setEditMode, handleClickOpen } = useContext(AppCtx);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredItems, setFilteredItems] = useState([]);
     const [value, setValue] = useState(0);
@@ -56,10 +55,6 @@ const TheContacts = () => {
         setFilteredItems(matches);
     }
 
-    useEffect(() => {
-        search();
-    }, [searchTerm, contacts]);
-
     const toggleStar = (theContactInfo, toggleStar) => {
         const newContacts = contacts.map(contact => {
             if (contact.id === theContactInfo.id) {
@@ -71,6 +66,13 @@ const TheContacts = () => {
         setContacts(newContacts);
     }
 
+    const updateContact = (item) => {
+        console.log('updating', item);
+    }
+
+    useEffect(() => {
+        search();
+    }, [searchTerm, contacts]);
 
     return (
         <>
@@ -101,7 +103,6 @@ const TheContacts = () => {
                                 variant="scrollable"
                                 value={value}
                                 onChange={handleChangeTab}
-                                aria-label="Vertical tabs example"
                                 sx={{ borderRight: 1, borderColor: 'divider' }}
                             >
                                 {filteredItems.map((item, i) => {
@@ -120,6 +121,8 @@ const TheContacts = () => {
                                     )
                                 })}
                             </Tabs>
+
+                            {!filteredItems.length ? 'Nothing found' : null}
                         </Box>
                     </Grid>
                 </Grid>

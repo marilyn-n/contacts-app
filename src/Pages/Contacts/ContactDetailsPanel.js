@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { AppCtx } from '../../context/appContext';
 import Avatar from '@mui/material/Avatar';
 import ImageIcon from '@mui/icons-material/Image';
 import IconButton from '@mui/material/IconButton';
@@ -22,9 +21,14 @@ import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import Diversity1Icon from '@mui/icons-material/Diversity1';
 import GroupsIcon from '@mui/icons-material/Groups';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import CreateNewDialog from '../../components/CreateNewDialog';
+import { AppCtx } from '../../context/appContext';
+import UpdateDialog from '../../components/UpdateDialog';
 
 const ContactDetailsPanel = (props) => {
+    const { handleOpenEditDialog } = useContext(AppCtx);
     const { contactDetails, toggleStar } = props;
+
     const [open, setOpen] = useState(true);
 
     const handleClick = () => {
@@ -43,10 +47,9 @@ const ContactDetailsPanel = (props) => {
                     <Typography sx={{ margin: '1rem 0', fontSize: 20 }}>{contactDetails.firstName}, {contactDetails.lastName}</Typography>
 
                     <Box>
-                        <IconButton>
+                        <IconButton onClick={handleOpenEditDialog}>
                             <ModeEditIcon />
                         </IconButton>
-
                         <IconButton onClick={() => toggleStar(contactDetails, contactDetails.isStared ? false : true)}>
                             {contactDetails.isStared ? <StarIcon sx={{ color: '#ffe600' }} /> : <StarBorder />}
                         </IconButton>
@@ -110,6 +113,8 @@ const ContactDetailsPanel = (props) => {
                     </List>
                 </Grid>
             </Grid>
+            <CreateNewDialog />
+            <UpdateDialog contact={contactDetails} />
         </>)
 }
 

@@ -18,9 +18,7 @@ const ContactLi = (props) => {
                 </IconButton> : null
         }>
             <ListItemAvatar>
-                <Avatar>
-                    <ImageIcon />
-                </Avatar>
+                <Avatar alt={`${data.firstName} ${data.lastName}`} src="/static/images/avatar/1.jpg" />
             </ListItemAvatar>
             <ListItemText primary={`${data.firstName} ${data.lastName}`} secondary={`${moment(data.createdDate).format('LLL')}`} />
         </ListItem>

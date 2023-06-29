@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import Grid from "@mui/material/Grid";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -11,7 +11,6 @@ import BeachAccessIcon from '@mui/icons-material/BeachAccess';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { AppCtx } from "../../context/appContext";
@@ -130,7 +129,7 @@ const TheDashboard = () => {
             <Grid item xs={2}>
                 <Card variant="outlined">
                     <CardContent>
-                        <Typography>Lists</Typography>
+                        <Typography>Groups</Typography>
                         <List>
                             <ListItem>
                                 <ListItemAvatar>

@@ -4,6 +4,10 @@ const AppCtx = createContext();
 
 const AppProvider = ({ children }) => {
     const [editMode, setEditMode] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [openEditDialog, setOpenEditDialog] = useState(false);
+
+
     const [contacts, setContacts] = useState(() => {
         const storage = JSON.parse(localStorage.getItem('storedContacts'));
         return storage ? storage : [];
@@ -13,11 +17,25 @@ const AppProvider = ({ children }) => {
         { id: 2, groupName: 'BFF', participants: [{ firstName: 'Molly', lastName: 'Molly' }, { firstName: 'Mamrrandi', lastName: 'Casas' }], lastEditedOn: '06/26/2023', createdOn: '03/06/2023' }
     ]);
 
+    const handleClickOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    const handleOpenEditDialog = () => setOpenEditDialog(true);
+    const handleCloseEditDialog = () => setOpenEditDialog(false);
+
     const contextValue = {
         editMode,
         setEditMode,
         contacts,
         setContacts,
+        handleClickOpen,
+        handleClose,
+        open,
+        setOpen,
+        openEditDialog,
+        setOpenEditDialog,
+        handleOpenEditDialog,
+        handleCloseEditDialog,
     }
 
     return (
@@ -25,7 +43,6 @@ const AppProvider = ({ children }) => {
             {children}
         </AppCtx.Provider>
     )
-
 };
 
 export { AppProvider, AppCtx };

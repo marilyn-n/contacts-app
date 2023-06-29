@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react"
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -9,59 +9,37 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
 import { AppCtx } from '../context/appContext';
-import moment from 'moment';
 
-const CreateContactDialog = (props) => {
-    const { handleClose, open } = props;
-    const { contacts, setContacts } = useContext(AppCtx);
-    const [contact, setContact] = useState({
-        firstName: '',
-        lastName: '',
-        mobile: '',
-        email: '',
-        address: '',
-        birthday: '',
-        groups: [],
-        // groups: [{ groupName: 'Stared' }, { groupName: 'Family' }],
-        isStared: false,
-    });
+const UpdateDialog = (props) => {
+    const { openEditDialog, handleCloseEditDialog, contacts, setContacts } = useContext(AppCtx);
+    const [contactDetails, setContactDetails] = useState({});
+
+    const updateContact = (updatedContact) => {
+        const updatedContacts = contacts.map(el => {
+            if (el.id === updatedContact.id) {
+                const updatedTarget = Object.assign(el, { ...updatedContact, updatedDate: new Date, updated: true });
+                return updatedTarget;
+            }
+            return el;
+        });
+
+        setContacts(updatedContacts);
+        handleCloseEditDialog();
+    }
 
     const handleChange = (e) => {
-        setContact({
-            ...contact,
+        setContactDetails({
+            ...contactDetails,
             [e.target.id]: `${e.target.value}`
-        });
-    }
-
-    const addNewContact = (item) => {
-        clearForm();
-        handleClose();
-        const newContact = {
-            ...item,
-            id: crypto.randomUUID(),
-            createdDate: new Date(),
-        }
-
-        setContacts([...contacts, newContact]);
-    }
-
-    const clearForm = () => setContact({
-        firstName: '',
-        lastName: '',
-        mobile: '',
-    });
-
-    const handleCancel = () => {
-        clearForm();
-        handleClose();
+        })
     }
 
     useEffect(() => {
-        localStorage.setItem('storedContacts', JSON.stringify(contacts));
-    }, [contacts]);
+        setContactDetails({ ...props.contact });
+    }, [props.contact]);
 
     return (
-        <Dialog open={open} onClose={handleClose}>
+        <Dialog open={openEditDialog} onClose={handleCloseEditDialog}>
             <DialogTitle>New Contact</DialogTitle>
             <DialogContent>
                 <DialogContentText>
@@ -75,7 +53,7 @@ const CreateContactDialog = (props) => {
                     type="text"
                     fullWidth
                     variant="outlined"
-                    value={contact.firstName}
+                    value={contactDetails.firstName}
                     onChange={handleChange}
                 />
                 <TextField
@@ -86,7 +64,7 @@ const CreateContactDialog = (props) => {
                     type="text"
                     fullWidth
                     variant="outlined"
-                    value={contact.lastName}
+                    value={contactDetails.lastName}
                     onChange={handleChange}
                 />
                 <TextField
@@ -97,7 +75,7 @@ const CreateContactDialog = (props) => {
                     type="text"
                     fullWidth
                     variant="outlined"
-                    value={contact.mobile}
+                    value={contactDetails.mobile}
                     onChange={handleChange}
                 />
                 <TextField
@@ -108,10 +86,10 @@ const CreateContactDialog = (props) => {
                     type="text"
                     fullWidth
                     variant="outlined"
-                    value={contact.email}
+                    value={contactDetails.email}
                     onChange={handleChange}
                 />
-                {/* <TextField
+                <TextField
                     autoFocus
                     margin="dense"
                     id="birthday"
@@ -119,9 +97,9 @@ const CreateContactDialog = (props) => {
                     type="date"
                     fullWidth
                     variant="outlined"
-                    value={contact.birthday}
+                    value={contactDetails.birthday}
                     onChange={handleChange}
-                /> */}
+                />
                 <TextField
                     autoFocus
                     margin="dense"
@@ -130,7 +108,7 @@ const CreateContactDialog = (props) => {
                     type="text"
                     fullWidth
                     variant="outlined"
-                    value={contact.address}
+                    value={contactDetails.address}
                     onChange={handleChange}
                 />
                 <TextField
@@ -141,16 +119,16 @@ const CreateContactDialog = (props) => {
                     type="text"
                     fullWidth
                     variant="outlined"
-                    value={contact.groups}
+                    value={contactDetails.groups}
                     onChange={handleChange}
                 />
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleCancel}>Cancel</Button>
-                <Button onClick={() => addNewContact(contact)} disabled={!contact.firstName && !contact.mobile}>Add</Button>
+                <Button onClick={handleCloseEditDialog}>Cancel</Button>
+                <Button onClick={() => updateContact(contactDetails)} disabled={!contactDetails.firstName && !contactDetails.mobile}>Update</Button>
             </DialogActions>
         </Dialog>
     )
 }
 
-export default CreateContactDialog;
+export default UpdateDialog;

@@ -1,18 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import TheDashboard from './pages/dashboard/TheDashboard';
 import TheContacts from './pages/contacts/TheContacts';
 import Stack from '@mui/material/Stack';
 import Link from '@mui/material/Link';
 import { Button, Box } from "@mui/material";
-import CreateContactDialog from './components/CreateContactDialog';
+import FormDialog from './components/CreateNewDialog';
+import { AppCtx } from "./context/appContext";
 
 const App = () => {
-    const [open, setOpen] = useState(false);
-
-    const handleClickOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-
+    const { handleClickOpen } = useContext(AppCtx);
 
     return (
         <>
@@ -36,7 +33,7 @@ const App = () => {
                 </Routes>
             </Router>
 
-            <CreateContactDialog handleClose={handleClose} open={open} />
+            <FormDialog />
 
         </>
     )
