@@ -24,10 +24,13 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CreateNewDialog from '../../components/CreateNewDialog';
 import { AppCtx } from '../../context/appContext';
 import UpdateDialog from '../../components/UpdateDialog';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import CakeIcon from '@mui/icons-material/Cake';
+import moment from "moment";
 
 const ContactDetailsPanel = (props) => {
     const { handleOpenEditDialog } = useContext(AppCtx);
-    const { contactDetails, toggleStar } = props;
+    const { contactDetails, toggleStar, deleteContact } = props;
 
     const [open, setOpen] = useState(true);
 
@@ -47,11 +50,14 @@ const ContactDetailsPanel = (props) => {
                     <Typography sx={{ margin: '1rem 0', fontSize: 20 }}>{contactDetails.firstName}, {contactDetails.lastName}</Typography>
 
                     <Box>
+                        <IconButton onClick={() => toggleStar(contactDetails, contactDetails.isStared ? false : true)}>
+                            {contactDetails.isStared ? <StarIcon sx={{ color: '#ffe600' }} /> : <StarBorder />}
+                        </IconButton>
                         <IconButton onClick={handleOpenEditDialog}>
                             <ModeEditIcon />
                         </IconButton>
-                        <IconButton onClick={() => toggleStar(contactDetails, contactDetails.isStared ? false : true)}>
-                            {contactDetails.isStared ? <StarIcon sx={{ color: '#ffe600' }} /> : <StarBorder />}
+                        <IconButton onClick={() => deleteContact(contactDetails)}>
+                            <DeleteOutlineIcon />
                         </IconButton>
                     </Box>
                 </Grid>
@@ -85,6 +91,12 @@ const ContactDetailsPanel = (props) => {
                             </ListItemIcon>
                             <ListItemText primary={map}></ListItemText>
                         </ListItemButton>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <CakeIcon />
+                            </ListItemIcon>
+                            <ListItemText primary={moment(contactDetails.dateOfBirth).format("MMM Do YY")}></ListItemText>
+                        </ListItemButton>
                         {contactDetails.groups ?
                             <>
                                 <ListItemButton onClick={handleClick}>
@@ -112,7 +124,7 @@ const ContactDetailsPanel = (props) => {
                         }
                     </List>
                 </Grid>
-            </Grid>
+            </Grid >
             <CreateNewDialog />
             <UpdateDialog contact={contactDetails} />
         </>)

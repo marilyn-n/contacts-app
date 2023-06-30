@@ -9,18 +9,15 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import moment from 'moment';
 
 const ContactLi = (props) => {
-    const { data, identifier, editMode, deleteContact } = props;
+    const { data, identifier } = props;
     return (
-        <ListItem label={data.firstName} id={`vertical-tab-${identifier}`} sx={{ minWidth: '100%' }} key={data.id} secondaryAction={
-            editMode ?
-                <IconButton edge="end" aria-label="delete" onClick={() => deleteContact(data)}>
-                    <DeleteIcon />
-                </IconButton> : null
-        }>
+        <ListItem label={data.firstName} id={`vertical-tab-${identifier}`} sx={{
+            minWidth: '100%',
+        }} key={data.id}>
             <ListItemAvatar>
                 <Avatar alt={`${data.firstName} ${data.lastName}`} src="/static/images/avatar/1.jpg" />
             </ListItemAvatar>
-            <ListItemText primary={`${data.firstName} ${data.lastName}`} secondary={`${moment(data.createdDate).format('LLL')}`} />
+            <ListItemText primary={`${data.firstName} ${data.lastName}`} />
         </ListItem>
     )
 

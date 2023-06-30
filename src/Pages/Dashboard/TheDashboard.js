@@ -26,11 +26,11 @@ const TheDashboard = () => {
     return (
         <Grid container item direction='row' justifyContent='center' alignSelf='center' spacing={2}>
             <Grid item xs={4}>
-                <Card variant='outlined'>
+                <Card variant='outlined' sx={{ minHeight: 350 }}>
                     <CardContent>
                         <Typography>Recently Added</Typography>
                         <List>
-                            {contacts.length ? contacts.slice(0, 4).map((contact) => {
+                            {contacts.length ? contacts.slice(0, 3).map((contact) => {
                                 return (
                                     <ListItem alignItems="flex-start" key={contact.id}>
                                         <ListItemAvatar>
@@ -52,7 +52,7 @@ const TheDashboard = () => {
                                                 </>
                                             }
                                         />
-                                        <Typography sx={{ fontSize: '.85rem' }}>{moment(contact.createdDate, "YYYYMMDD").fromNow()}</Typography>
+                                        <Typography sx={{ fontSize: '.85rem' }}>{moment(contact.createdDate).startOf('hour').fromNow()}</Typography>
                                     </ListItem>
                                 )
                             }) : null}
@@ -63,11 +63,11 @@ const TheDashboard = () => {
                             </CardActions> : null}
                     </CardContent>
                 </Card>
-                <Card variant='outlined' sx={{ marginTop: '1rem' }}>
+                <Card variant='outlined' sx={{ marginTop: '1rem', minHeight: 350 }}>
                     <CardContent>
                         <Typography>Birthdays</Typography>
                         <List>
-                            {contacts.length ? contacts.slice(0, 4).map((contact) => {
+                            {contacts.length ? contacts.slice(0, 3).map((contact) => {
                                 return (
                                     <ListItem alignItems="flex-start" key={contact.id}>
                                         <ListItemAvatar>
@@ -83,9 +83,9 @@ const TheDashboard = () => {
                                                         variant="body2"
                                                         color="text.primary"
                                                     >
-                                                        Mobile
+                                                        Birthday
                                                     </Typography>
-                                                    {contact.mobile}
+                                                    {moment(contact.dateOfBirth).format("MMM Do YY")}
                                                 </>
                                             }
                                         />
@@ -96,7 +96,7 @@ const TheDashboard = () => {
                         </List>
                     </CardContent>
                 </Card>
-                <Card variant='outlined' sx={{ marginTop: '1rem' }}>
+                <Card variant='outlined' sx={{ marginTop: '1rem', minHeight: 300 }}>
                     <CardContent>
                         <Typography sx={{ marginBottom: '1rem' }}>My Community</Typography>
                         {map}
@@ -104,11 +104,11 @@ const TheDashboard = () => {
                 </Card>
             </Grid>
             <Grid item xs={2}>
-                <Card variant='outlined'>
+                <Card variant='outlined' sx={{ minHeight: 350 }}>
                     <CardContent>
                         <Typography>Starred Contacts</Typography>
                         <List>
-                            {starredContacts.length > 0 ? starredContacts.slice(0, 4).map((contact) => {
+                            {starredContacts.length > 0 ? starredContacts.slice(0, 3).map((contact) => {
                                 return (
                                     <ListItem>
                                         <ListItemAvatar>
@@ -127,7 +127,7 @@ const TheDashboard = () => {
                 </Card>
             </Grid>
             <Grid item xs={2}>
-                <Card variant="outlined">
+                <Card variant="outlined" sx={{ minHeight: 350 }}>
                     <CardContent>
                         <Typography>Groups</Typography>
                         <List>
@@ -157,7 +157,7 @@ const TheDashboard = () => {
                             </ListItem>
                         </List>
                         <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
-                            <Button size="small">Load +2</Button>
+                            <Button size="small">See All</Button>
                         </CardActions>
                     </CardContent>
                 </Card>

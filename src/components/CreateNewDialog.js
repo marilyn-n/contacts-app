@@ -9,21 +9,29 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
 import { AppCtx } from '../context/appContext';
+import BirthdayPicker from "./BirthdayPicker";
 
 const CreateNewDialog = () => {
     const { contacts, setContacts, handleClose, open } = useContext(AppCtx);
+    const [dateValue, setDateValue] = useState(new Date());
     const [contact, setContact] = useState({
         firstName: '',
         lastName: '',
         mobile: '',
         email: '',
         address: '',
-        birthday: new Date(),
+        dateOfBirth: new Date(),
         groups: [],
         isStared: false,
     });
 
+
+    const handleDateOfBirth = (newValue) => {
+        setDateValue(newValue);
+    }
+
     const handleChange = (e) => {
+        console.log(contact, 'lol');
         setContact({
             ...contact,
             [e.target.id]: `${e.target.value}`
@@ -37,6 +45,7 @@ const CreateNewDialog = () => {
             ...item,
             id: crypto.randomUUID(),
             createdDate: new Date(),
+            dateOfBirth: dateValue,
         }
 
         setContacts([...contacts, newContact]);
@@ -108,17 +117,7 @@ const CreateNewDialog = () => {
                     value={contact.email}
                     onChange={handleChange}
                 />
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    id="birthday"
-                    label="Birthday"
-                    type="date"
-                    fullWidth
-                    variant="outlined"
-                    value={contact.birthday}
-                    onChange={handleChange}
-                />
+                <BirthdayPicker label='Birthday' dateValue={dateValue} handleDateOfBirth={handleDateOfBirth} />
                 <TextField
                     autoFocus
                     margin="dense"

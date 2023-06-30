@@ -32,7 +32,7 @@ function TabPanel(props) {
 }
 
 const TheContacts = () => {
-    const { contacts, setContacts, editMode, setEditMode, handleClickOpen } = useContext(AppCtx);
+    const { contacts, setContacts, handleClickOpen } = useContext(AppCtx);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredItems, setFilteredItems] = useState([]);
     const [value, setValue] = useState(0);
@@ -66,10 +66,6 @@ const TheContacts = () => {
         setContacts(newContacts);
     }
 
-    const updateContact = (item) => {
-        console.log('updating', item);
-    }
-
     useEffect(() => {
         search();
     }, [searchTerm, contacts]);
@@ -81,6 +77,7 @@ const TheContacts = () => {
                     <TextField fullWidth label="Search" id="searchTerm" value={searchTerm} onChange={handleChange} />
                 </Grid>
             </Grid>
+
             <Grid container direction='row' justifyContent='center'>
                 <Grid item xs={4}>
                     <Grid item>
@@ -89,47 +86,39 @@ const TheContacts = () => {
                                 <Typography sx={{ margin: '2rem 0' }}>All Contacts </Typography>
                                 <Chip label={`${contacts.length > 0 ? contacts.length : 0}`} sx={{ marginLeft: '.5rem' }} />
                             </Box>
-                            <Box>
-                                {!editMode ?
-                                    <Button size='small' onClick={() => setEditMode(true)}>Edit</Button>
-                                    :
-                                    <Button size='small' onClick={() => setEditMode(false)}>Done</Button>
-                                }
-                            </Box>
                         </Box>
                         <Box>
                             <Tabs
                                 orientation="vertical"
-                                variant="scrollable"
                                 value={value}
                                 onChange={handleChangeTab}
-                                sx={{ borderRight: 1, borderColor: 'divider' }}
+                                sx={{ borderRight: 1, borderColor: 'divider', height: 600 }}
                             >
                                 {filteredItems.map((item, i) => {
                                     return (
                                         <Tab
+
                                             key={item.id}
                                             label={
-                                                <ContactLi
-                                                    key={item.id} data={item}
-                                                    identifier={i}
-                                                    editMode={editMode}
-                                                    deleteContact={deleteContact}
-                                                />
+                                                <>
+                                                    <ContactLi
+                                                        key={item.id} data={item}
+                                                        identifier={i}
+                                                    />
+                                                </>
+
                                             } id={`vertical-tab-${i}`} sx={{ minWidth: '100%' }}
                                         />
                                     )
                                 })}
                             </Tabs>
-
-                            {!filteredItems.length ? 'Nothing found' : null}
                         </Box>
                     </Grid>
                 </Grid>
                 <Grid item xs={4}>
                     {filteredItems.map((item, i) => {
                         return <TabPanel value={value} index={i} key={item.id}>
-                            <ContactDetailsPanel contactDetails={item} toggleStar={toggleStar} />
+                            <ContactDetailsPanel contactDetails={item} toggleStar={toggleStar} deleteContact={deleteContact} />
                         </TabPanel>
                     })}
                 </Grid>

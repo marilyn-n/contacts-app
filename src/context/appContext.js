@@ -3,7 +3,6 @@ import React, { useState, createContext } from 'react';
 const AppCtx = createContext();
 
 const AppProvider = ({ children }) => {
-    const [editMode, setEditMode] = useState(false);
     const [open, setOpen] = useState(false);
     const [openEditDialog, setOpenEditDialog] = useState(false);
 
@@ -24,8 +23,6 @@ const AppProvider = ({ children }) => {
     const handleCloseEditDialog = () => setOpenEditDialog(false);
 
     const contextValue = {
-        editMode,
-        setEditMode,
         contacts,
         setContacts,
         handleClickOpen,

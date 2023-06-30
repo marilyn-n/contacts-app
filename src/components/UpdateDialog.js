@@ -9,6 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
 import { AppCtx } from '../context/appContext';
+import BirthdayPicker from "./BirthdayPicker";
 
 const UpdateDialog = (props) => {
     const { openEditDialog, handleCloseEditDialog, contacts, setContacts } = useContext(AppCtx);
@@ -89,17 +90,7 @@ const UpdateDialog = (props) => {
                     value={contactDetails.email}
                     onChange={handleChange}
                 />
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    id="birthday"
-                    label="Birthday"
-                    type="date"
-                    fullWidth
-                    variant="outlined"
-                    value={contactDetails.birthday}
-                    onChange={handleChange}
-                />
+                {/* <BirthdayPicker label='Birthday'  /> */}
                 <TextField
                     autoFocus
                     margin="dense"
