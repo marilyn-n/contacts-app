@@ -26,7 +26,7 @@ import { AppCtx } from '../../context/appContext';
 import UpdateDialog from '../../components/UpdateDialog';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import CakeIcon from '@mui/icons-material/Cake';
-import moment from "moment";
+import moment from 'moment';
 
 const ContactDetailsPanel = (props) => {
     const { handleOpenEditDialog } = useContext(AppCtx);
@@ -95,7 +95,7 @@ const ContactDetailsPanel = (props) => {
                             <ListItemIcon>
                                 <CakeIcon />
                             </ListItemIcon>
-                            <ListItemText primary={moment(contactDetails.dateOfBirth).format("MMM Do YY")}></ListItemText>
+                            <ListItemText primary={moment(contactDetails.dateOfBirth).format('L')}></ListItemText>
                         </ListItemButton>
                         {contactDetails.groups ?
                             <>
@@ -126,7 +126,7 @@ const ContactDetailsPanel = (props) => {
                 </Grid>
             </Grid >
             <CreateNewDialog />
-            <UpdateDialog contact={contactDetails} />
+            <UpdateDialog contactData={contactDetails} />
         </>)
 }
 

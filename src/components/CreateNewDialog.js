@@ -9,34 +9,32 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
 import { AppCtx } from '../context/appContext';
-import BirthdayPicker from "./BirthdayPicker";
+import dayjs from 'dayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 const CreateNewDialog = () => {
     const { contacts, setContacts, handleClose, open } = useContext(AppCtx);
-    const [dateValue, setDateValue] = useState(new Date());
     const [contact, setContact] = useState({
         firstName: '',
         lastName: '',
         mobile: '',
         email: '',
         address: '',
-        dateOfBirth: new Date(),
+        dateOfBirth: dayjs(new Date()),
         groups: [],
         isStared: false,
     });
 
-
-    const handleDateOfBirth = (newValue) => {
-        setDateValue(newValue);
-    }
-
     const handleChange = (e) => {
-        console.log(contact, 'lol');
         setContact({
             ...contact,
             [e.target.id]: `${e.target.value}`
         });
     }
+
+    const handleDOBChange = (newValue) => setContact({ ...contact, 'dateOfBirth': `${newValue}` });
 
     const addNewContact = (item) => {
         clearForm();
@@ -44,8 +42,7 @@ const CreateNewDialog = () => {
         const newContact = {
             ...item,
             id: crypto.randomUUID(),
-            createdDate: new Date(),
-            dateOfBirth: dateValue,
+            createdDate: new Date()
         }
 
         setContacts([...contacts, newContact]);
@@ -117,7 +114,14 @@ const CreateNewDialog = () => {
                     value={contact.email}
                     onChange={handleChange}
                 />
-                <BirthdayPicker label='Birthday' dateValue={dateValue} handleDateOfBirth={handleDateOfBirth} />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                        sx={{ width: '100%', margin: '.5rem 0' }}
+                        label='Birthday'
+                        value={contact.dateOfBirth}
+                        onChange={handleDOBChange}
+                    />
+                </LocalizationProvider>
                 <TextField
                     autoFocus
                     margin="dense"

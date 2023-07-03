@@ -5,14 +5,15 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 const BirthdayPicker = (props) => {
-    const { label, dateValue, handleDateOfBirth } = props;
+    const [value, setValue] = useState(dayjs(props.dateTest));
+
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
                 sx={{ width: '100%', margin: '.5rem 0' }}
-                label={label}
-                value={dayjs(dateValue)}
-                onChange={(newValue) => handleDateOfBirth(newValue)}
+                label='Birthday'
+                value={value}
+                onChange={(newValue) => setValue(newValue)}
             />
         </LocalizationProvider>
     )

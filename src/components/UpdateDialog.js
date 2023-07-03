@@ -9,11 +9,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
 import { AppCtx } from '../context/appContext';
-import BirthdayPicker from "./BirthdayPicker";
 
 const UpdateDialog = (props) => {
     const { openEditDialog, handleCloseEditDialog, contacts, setContacts } = useContext(AppCtx);
-    const [contactDetails, setContactDetails] = useState({});
+    const { contactData } = props;
+    const [updatedContact, setUpdatedContact] = useState({})
 
     const updateContact = (updatedContact) => {
         const updatedContacts = contacts.map(el => {
@@ -29,15 +29,16 @@ const UpdateDialog = (props) => {
     }
 
     const handleChange = (e) => {
-        setContactDetails({
-            ...contactDetails,
+        setUpdatedContact({
+            ...updatedContact,
             [e.target.id]: `${e.target.value}`
         })
     }
 
+
     useEffect(() => {
-        setContactDetails({ ...props.contact });
-    }, [props.contact]);
+        setUpdatedContact({ ...contactData });
+    }, [contactData]);
 
     return (
         <Dialog open={openEditDialog} onClose={handleCloseEditDialog}>
@@ -54,7 +55,7 @@ const UpdateDialog = (props) => {
                     type="text"
                     fullWidth
                     variant="outlined"
-                    value={contactDetails.firstName}
+                    value={updatedContact.firstName}
                     onChange={handleChange}
                 />
                 <TextField
@@ -65,7 +66,7 @@ const UpdateDialog = (props) => {
                     type="text"
                     fullWidth
                     variant="outlined"
-                    value={contactDetails.lastName}
+                    value={updatedContact.lastName}
                     onChange={handleChange}
                 />
                 <TextField
@@ -76,7 +77,7 @@ const UpdateDialog = (props) => {
                     type="text"
                     fullWidth
                     variant="outlined"
-                    value={contactDetails.mobile}
+                    value={updatedContact.mobile}
                     onChange={handleChange}
                 />
                 <TextField
@@ -87,10 +88,9 @@ const UpdateDialog = (props) => {
                     type="text"
                     fullWidth
                     variant="outlined"
-                    value={contactDetails.email}
+                    value={updatedContact.email}
                     onChange={handleChange}
                 />
-                {/* <BirthdayPicker label='Birthday'  /> */}
                 <TextField
                     autoFocus
                     margin="dense"
@@ -99,7 +99,7 @@ const UpdateDialog = (props) => {
                     type="text"
                     fullWidth
                     variant="outlined"
-                    value={contactDetails.address}
+                    value={updatedContact.address}
                     onChange={handleChange}
                 />
                 <TextField
@@ -110,13 +110,13 @@ const UpdateDialog = (props) => {
                     type="text"
                     fullWidth
                     variant="outlined"
-                    value={contactDetails.groups}
+                    value={updatedContact.groups}
                     onChange={handleChange}
                 />
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleCloseEditDialog}>Cancel</Button>
-                <Button onClick={() => updateContact(contactDetails)} disabled={!contactDetails.firstName && !contactDetails.mobile}>Update</Button>
+                <Button onClick={() => updateContact(updatedContact)} disabled={!updatedContact.firstName && !updatedContact.mobile}>Update</Button>
             </DialogActions>
         </Dialog>
     )

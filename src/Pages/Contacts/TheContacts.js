@@ -92,7 +92,7 @@ const TheContacts = () => {
                                 orientation="vertical"
                                 value={value}
                                 onChange={handleChangeTab}
-                                sx={{ borderRight: 1, borderColor: 'divider', height: 600 }}
+                                sx={{ borderRight: 1, borderColor: 'divider' }}
                             >
                                 {filteredItems.map((item, i) => {
                                     return (
