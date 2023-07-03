@@ -9,11 +9,15 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
 import { AppCtx } from '../context/appContext';
+import dayjs from 'dayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 const UpdateDialog = (props) => {
     const { openEditDialog, handleCloseEditDialog, contacts, setContacts } = useContext(AppCtx);
     const { contactData } = props;
-    const [updatedContact, setUpdatedContact] = useState({})
+    const [updatedContact, setUpdatedContact] = useState({});
 
     const updateContact = (updatedContact) => {
         const updatedContacts = contacts.map(el => {
@@ -32,9 +36,10 @@ const UpdateDialog = (props) => {
         setUpdatedContact({
             ...updatedContact,
             [e.target.id]: `${e.target.value}`
-        })
-    }
+        });
+    };
 
+    const handleDOBChange = (newValue) => setUpdatedContact({ ...updatedContact, 'dateOfBirth': `${newValue}` });
 
     useEffect(() => {
         setUpdatedContact({ ...contactData });
@@ -91,6 +96,14 @@ const UpdateDialog = (props) => {
                     value={updatedContact.email}
                     onChange={handleChange}
                 />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                        sx={{ width: '100%', margin: '.5rem 0' }}
+                        label='Birthday'
+                        value={dayjs(updatedContact.dateOfBirth)}
+                        onChange={handleDOBChange}
+                    />
+                </LocalizationProvider>
                 <TextField
                     autoFocus
                     margin="dense"
