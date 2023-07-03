@@ -3,10 +3,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-import ImageIcon from '@mui/icons-material/Image';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import moment from 'moment';
+import StarIcon from '@mui/icons-material/Star';
 
 const ContactLi = (props) => {
     const { data, identifier } = props;
@@ -18,6 +15,7 @@ const ContactLi = (props) => {
                 <Avatar alt={`${data.firstName} ${data.lastName}`} src="/static/images/avatar/1.jpg" />
             </ListItemAvatar>
             <ListItemText primary={`${data.firstName} ${data.lastName}`} />
+            {data.isStared ? <StarIcon /> : null}
         </ListItem>
     )
 

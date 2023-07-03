@@ -4,9 +4,8 @@ const AppCtx = createContext();
 
 const AppProvider = ({ children }) => {
     const [open, setOpen] = useState(false);
+    const [isSeeAllOpen, setIsSeeAllOpen] = useState(false);
     const [openEditDialog, setOpenEditDialog] = useState(false);
-
-
     const [contacts, setContacts] = useState(() => {
         const storage = JSON.parse(localStorage.getItem('storedContacts'));
         return storage ? storage : [];
@@ -22,6 +21,9 @@ const AppProvider = ({ children }) => {
     const handleOpenEditDialog = () => setOpenEditDialog(true);
     const handleCloseEditDialog = () => setOpenEditDialog(false);
 
+    const handleSeeAllOpen = () => setIsSeeAllOpen(true);
+    const handleSeeAllClose = () => setIsSeeAllOpen(false);
+
     const contextValue = {
         contacts,
         setContacts,
@@ -33,6 +35,10 @@ const AppProvider = ({ children }) => {
         setOpenEditDialog,
         handleOpenEditDialog,
         handleCloseEditDialog,
+        isSeeAllOpen,
+        setIsSeeAllOpen,
+        handleSeeAllOpen,
+        handleSeeAllClose,
     }
 
     return (
