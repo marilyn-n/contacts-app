@@ -18,14 +18,11 @@ const SeeAllDialog = (props) => {
     const { isSeeAllOpen, handleSeeAllClose } = useContext(AppCtx);
     const { itemsData } = props;
 
-    console.log(itemsData);
     return (
         <Dialog open={isSeeAllOpen} onClose={handleSeeAllClose}>
             <DialogTitle>{itemsData.label}</DialogTitle>
-            <DialogContent>
+            <DialogContent sx={{ width: 400 }}>
                 <List
-                    sx={{ bgcolor: 'background.paper' }}
-                    component="nav"
                     aria-labelledby="nested-list-subheader"
                     subheader={
                         <ListSubheader component="div" id="nested-list-subheader">

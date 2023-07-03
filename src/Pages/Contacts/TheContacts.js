@@ -9,6 +9,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import ContactLi from './ContactLi';
 import ContactDetailsPanel from './ContactDetailsPanel';
+import EmptyStateUI from '../../components/EmptyUIState';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -31,7 +32,7 @@ function TabPanel(props) {
 }
 
 const TheContacts = () => {
-    const { contacts, setContacts, handleClickOpen } = useContext(AppCtx);
+    const { contacts, setContacts } = useContext(AppCtx);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredItems, setFilteredItems] = useState([]);
     const [value, setValue] = useState(0);
@@ -91,7 +92,7 @@ const TheContacts = () => {
                                 orientation="vertical"
                                 value={value}
                                 onChange={handleChangeTab}
-                                sx={{ borderRight: 1, borderColor: 'divider' }}
+                                sx={{ borderRight: 1, borderColor: 'divider', minHeight: 800 }}
                             >
                                 {filteredItems.map((item, i) => {
                                     return (
@@ -110,6 +111,8 @@ const TheContacts = () => {
                                         />
                                     )
                                 })}
+
+                                {!filteredItems.length ? <EmptyStateUI label='No Results' /> : null}
                             </Tabs>
                         </Box>
                     </Grid>

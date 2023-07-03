@@ -5,6 +5,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import ContactsIcon from '@mui/icons-material/Contacts';
 import ImageIcon from '@mui/icons-material/Image';
 import WorkIcon from '@mui/icons-material/Work';
 import BeachAccessIcon from '@mui/icons-material/BeachAccess';
@@ -17,6 +19,7 @@ import { AppCtx } from "../../context/appContext";
 import CakeIcon from '@mui/icons-material/Cake';
 import moment from "moment";
 import SeeAllDialog from "../../components/SeeAllDialog";
+import EmptyStateUI from "../../components/EmptyUIState";
 
 const TheDashboard = () => {
     const { contacts, setOpen, handleSeeAllOpen, } = useContext(AppCtx);
@@ -88,7 +91,7 @@ const TheDashboard = () => {
                                         <Typography sx={{ fontSize: '.85rem' }}>{moment(contact.createdDate).fromNow()}</Typography>
                                     </ListItem>
                                 )
-                            }) : null}
+                            }) : <EmptyStateUI label='No recent activity' />}
                         </List>
                         {recentAdded.length > 3 ?
                             <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -125,7 +128,7 @@ const TheDashboard = () => {
                                         <Typography sx={{ fontSize: '.85rem' }}>  {moment(contact.dateOfBirth).fromNow()}</Typography>
                                     </ListItem>
                                 )
-                            }) : null}
+                            }) : <EmptyStateUI label='No upcoming events' />}
                         </List>
                     </CardContent>
                 </Card>
@@ -150,7 +153,7 @@ const TheDashboard = () => {
                                         <ListItemText primary={`${contact.firstName} ${contact.lastName}`} secondary={contact.address} />
                                     </ListItem>
                                 )
-                            }) : null}
+                            }) : <EmptyStateUI label='No starred contacts' />}
                         </List>
                         {starredContacts.length > 3 ?
                             <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
