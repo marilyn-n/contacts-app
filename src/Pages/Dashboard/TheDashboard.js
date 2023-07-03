@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Grid from "@mui/material/Grid";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -18,10 +18,20 @@ import CakeIcon from '@mui/icons-material/Cake';
 import moment from "moment";
 
 const TheDashboard = () => {
-    const { contacts, setContacts } = useContext(AppCtx);
-
+    const { contacts } = useContext(AppCtx);
     const starredContacts = contacts.filter(item => item.isStared);
     const map = <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d240863.9978504921!2d-99.45510693850875!3d19.39079237487473!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85ce0026db097507%3A0x54061076265ee841!2sMexico%20City%2C%20CDMX!5e0!3m2!1sen!2smx!4v1687906913347!5m2!1sen!2smx" style={{ border: 0, width: '100%', height: 300 }} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+    const [recentAdded, setRecentAdded] = useState([]);
+    const [upcomingBirthdays, setUpcomingBirthdays] = useState([]);
+
+
+
+    useEffect(() => {
+        const compareDates = (a, b) => new Date(b.createdDate) - new Date(a.createdDate);
+        const sortedEls = contacts.sort(compareDates);
+        setRecentAdded(sortedEls);
+        setUpcomingBirthdays(contacts.filter(c => new Date(c.dateOfBirth) > new Date()));
+    }, []);
 
     return (
         <Grid container item direction='row' justifyContent='center' alignSelf='center' spacing={2}>
@@ -30,7 +40,7 @@ const TheDashboard = () => {
                     <CardContent>
                         <Typography>Recently Added</Typography>
                         <List>
-                            {contacts.length ? contacts.slice(0, 3).map((contact) => {
+                            {recentAdded.length ? recentAdded.slice(0, 3).map((contact) => {
                                 return (
                                     <ListItem alignItems="flex-start" key={contact.id}>
                                         <ListItemAvatar>
@@ -52,12 +62,12 @@ const TheDashboard = () => {
                                                 </>
                                             }
                                         />
-                                        <Typography sx={{ fontSize: '.85rem' }}>{moment(contact.createdDate).startOf('hour').fromNow()}</Typography>
+                                        <Typography sx={{ fontSize: '.85rem' }}>{moment(contact.createdDate).fromNow()}</Typography>
                                     </ListItem>
                                 )
                             }) : null}
                         </List>
-                        {contacts.length > 4 ?
+                        {recentAdded.length > 3 ?
                             <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
                                 <Button size="small">See All</Button>
                             </CardActions> : null}
@@ -67,7 +77,7 @@ const TheDashboard = () => {
                     <CardContent>
                         <Typography>Birthdays</Typography>
                         <List>
-                            {contacts.length ? contacts.slice(0, 3).map((contact) => {
+                            {upcomingBirthdays.length ? upcomingBirthdays.slice(0, 3).map((contact) => {
                                 return (
                                     <ListItem alignItems="flex-start" key={contact.id}>
                                         <ListItemAvatar>
@@ -85,11 +95,11 @@ const TheDashboard = () => {
                                                     >
                                                         Birthday
                                                     </Typography>
-                                                    {moment(contact.dateOfBirth).format("MMM Do YY")}
+                                                    {moment(contact.dateOfBirth).format('LL')}
                                                 </>
                                             }
                                         />
-                                        <Typography sx={{ fontSize: '.85rem' }}>{contact.birthday}</Typography>
+                                        <Typography sx={{ fontSize: '.85rem' }}>  {moment(contact.dateOfBirth).fromNow()}</Typography>
                                     </ListItem>
                                 )
                             }) : null}
@@ -110,7 +120,7 @@ const TheDashboard = () => {
                         <List>
                             {starredContacts.length > 0 ? starredContacts.slice(0, 3).map((contact) => {
                                 return (
-                                    <ListItem>
+                                    <ListItem key={contact.id}>
                                         <ListItemAvatar>
                                             <Avatar alt={`${contact.firstName} ${contact.lastName}`} src="/static/images/avatar/1.jpg" />
                                         </ListItemAvatar>
@@ -167,4 +177,3 @@ const TheDashboard = () => {
 }
 
 export default TheDashboard;
-
