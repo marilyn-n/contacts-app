@@ -6,14 +6,15 @@ const AppProvider = ({ children }) => {
     const [open, setOpen] = useState(false);
     const [isSeeAllOpen, setIsSeeAllOpen] = useState(false);
     const [openEditDialog, setOpenEditDialog] = useState(false);
+    const [openGroupDialog, setGroupDialog] = useState(false);
     const [contacts, setContacts] = useState(() => {
         const storage = JSON.parse(localStorage.getItem('storedContacts'));
         return storage ? storage : [];
     });
-    const [groups, setGroups] = useState([
-        { id: 1, groupName: 'Family', participants: [{ firstName: 'Molly', lastName: 'Molly' }, { firstName: 'Mamrrandi', lastName: 'Casas' }], lastEditedOn: '06/16/2023', createdOn: '03/06/2023' },
-        { id: 2, groupName: 'BFF', participants: [{ firstName: 'Molly', lastName: 'Molly' }, { firstName: 'Mamrrandi', lastName: 'Casas' }], lastEditedOn: '06/26/2023', createdOn: '03/06/2023' }
-    ]);
+    const [groups, setGroups] = useState(() => {
+        const storage = JSON.parse(localStorage.getItem('storedGroups'));
+        return storage ? storage : [];
+    });
 
     const handleClickOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -23,6 +24,9 @@ const AppProvider = ({ children }) => {
 
     const handleSeeAllOpen = () => setIsSeeAllOpen(true);
     const handleSeeAllClose = () => setIsSeeAllOpen(false);
+
+    const handleGroupOpen = () => setGroupDialog(true);
+    const handleGroupClose = () => setGroupDialog(false);
 
     const contextValue = {
         contacts,
@@ -39,6 +43,12 @@ const AppProvider = ({ children }) => {
         setIsSeeAllOpen,
         handleSeeAllOpen,
         handleSeeAllClose,
+        openGroupDialog,
+        setGroupDialog,
+        handleGroupOpen,
+        handleGroupClose,
+        groups,
+        setGroups
     }
 
     return (

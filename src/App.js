@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { NavLink } from 'react-router-dom';
 import TheDashboard from './pages/dashboard/TheDashboard';
@@ -8,9 +8,27 @@ import { Button, Box, Typography } from "@mui/material";
 import FormDialog from './components/CreateNewDialog';
 import { AppCtx } from "./context/appContext";
 import "./App.css"
+import AddIcon from '@mui/icons-material/Add';
+import PersonIcon from '@mui/icons-material/Person';
+import GroupsIcon from '@mui/icons-material/Groups';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import CreateGroupDialog from "./components/CreateGropuDialog";
 
 const App = () => {
     const { handleClickOpen } = useContext(AppCtx);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const { handleGroupOpen } = useContext(AppCtx);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     return (
         <>
@@ -27,7 +45,39 @@ const App = () => {
                         </Stack>
                     </nav>
                     <Stack direction="row" alignItems='center'>
-                        <Button variant="contained" size="small" disableElevation={true} onClick={handleClickOpen}>New Contact</Button>
+                        <Button
+                            id="demo-positioned-button"
+                            aria-controls={open ? 'demo-positioned-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? 'true' : undefined}
+                            onClick={handleClick}
+                            startIcon={<AddIcon fontSize="inherit" />}
+                        >
+                            Add
+                        </Button>
+                        <Menu id="demo-positioned-menu"
+                            aria-labelledby="demo-positioned-button"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+
+                        >
+                            <MenuList sx={{ width: 200 }}>
+                                <MenuItem onClick={handleClickOpen}>
+                                    <ListItemIcon>
+                                        <PersonIcon fontSize="small" />
+                                    </ListItemIcon>
+                                    <ListItemText>New Contact</ListItemText>
+                                </MenuItem>
+                                <MenuItem onClick={handleGroupOpen}>
+                                    <ListItemIcon>
+                                        <GroupsIcon fontSize="small" />
+                                    </ListItemIcon>
+                                    <ListItemText>New Group</ListItemText>
+                                </MenuItem>
+                            </MenuList>
+                        </Menu>
+
                     </Stack>
                 </Box>
                 <Routes>
@@ -36,6 +86,7 @@ const App = () => {
                 </Routes>
             </Router>
             <FormDialog />
+            <CreateGroupDialog />
 
             <footer style={{ backgroundColor: 'rgb(250 248 248)', padding: '2rem', textAlign: 'center', color: '#939393' }}>
                 <Typography sx={{ fontSize: '1.15rem' }}> &#169; 2023 Marilyn Negrete </Typography>

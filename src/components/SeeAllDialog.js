@@ -33,9 +33,9 @@ const SeeAllDialog = (props) => {
                     {itemsData.items.map(i => {
                         return (<ListItem key={i.id}>
                             <ListItemAvatar>
-                                <Avatar alt={`${i.firstName} ${i.lastName}`} src="/static/images/avatar/1.jpg" />
+                                <Avatar alt={itemsData.label === 'Groups' ? `${i.groupName}` : `${i.firstName} ${i.lastName}`} src="/static/images/avatar/1.jpg" />
                             </ListItemAvatar>
-                            <ListItemText primary={`${i.firstName} ${i.lastName}`} secondary={itemsData.label === 'Recently Added' ? i.mobile : i.address} />
+                            <ListItemText primary={itemsData.label === 'Groups' ? `${i.groupName}` : `${i.firstName} ${i.lastName}`} secondary={itemsData.label === 'Recently Added' ? i.mobile : i.address} />
                         </ListItem>)
                     })}
                 </List>

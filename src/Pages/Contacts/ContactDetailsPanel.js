@@ -44,9 +44,7 @@ const ContactDetailsPanel = (props) => {
         <>
             <Grid container direction='column'>
                 <Grid item display='flex' alignItems='center' flexDirection='column'>
-                    <Avatar sx={{ width: 150, height: 150 }}>
-                        <ImageIcon />
-                    </Avatar>
+                    <Avatar alt={`${contactDetails.firstName} ${contactDetails.lastName}`} src="/static/images/avatar/1.jpg" sx={{ width: 150, height: 150, fontSize: 60 }} />
                     <Typography sx={{ margin: '1rem 0', fontSize: 20 }}>{contactDetails.firstName}, {contactDetails.lastName}</Typography>
 
                     <Box>
