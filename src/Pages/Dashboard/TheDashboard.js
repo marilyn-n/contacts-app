@@ -5,6 +5,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
+import AvatarGroup from '@mui/material/AvatarGroup';
 import ImageIcon from '@mui/icons-material/Image';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -27,8 +28,6 @@ const TheDashboard = () => {
         items: [],
         label: '',
     });
-
-    console.log(groups, 'lllllloooollllllll');
 
     useEffect(() => {
         const compareDates = (a, b) => new Date(b.createdDate) - new Date(a.createdDate);
@@ -166,21 +165,28 @@ const TheDashboard = () => {
                         <Typography>Groups</Typography>
                         <List>
                             {groups ? groups.slice(0, 3).map((g) => {
-                                return (<ListItem>
-                                    <ListItemAvatar>
-                                        <Avatar>
-                                            <ImageIcon />
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText primary={g.groupName} secondary="Jan 9, 2014" />
-                                </ListItem>)
+                                return (
+                                    <ListItem key={g.id}>
+                                        <ListItemAvatar>
+                                            <Avatar>
+                                                <ImageIcon />
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText primary={g.groupName} secondary="Jan 9, 2014" />
+
+                                        <AvatarGroup total={g.members.length}>
+                                            {g.members.map(member => {
+                                                return <Avatar alt={`${member.firstName}`} src="/static/images/avatar/1.jpg" sx={{ width: 32, height: 32 }} />
+                                            })}
+                                        </AvatarGroup>
+                                    </ListItem>
+                                )
                             }) : <EmptyStateUI label='Create a group' />}
                         </List>
                         {groups.length > 3 ?
                             <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
                                 <Button onClick={() => displayData('groups')} size="small">See All</Button>
                             </CardActions> : null}
-
                     </CardContent>
                 </Card>
             </Grid>

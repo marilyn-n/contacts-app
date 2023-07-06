@@ -16,7 +16,9 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import CreateGroupDialog from "./components/CreateGropuDialog";
+import CreateGroupDialog from "./components/CreateGroupDialog";
+import ContactDetails from "./pages/contacts/ContactDetails";
+import TheGroups from "./pages/groups/TheGroups";
 
 const App = () => {
     const { handleClickOpen } = useContext(AppCtx);
@@ -41,6 +43,9 @@ const App = () => {
                             </NavLink>
                             <NavLink to="/contacts" activeClassName="active" className="nav-link">
                                 Contacts
+                            </NavLink>
+                            <NavLink to="/groups" activeClassName="active" className="nav-link">
+                                Groups
                             </NavLink>
                         </Stack>
                     </nav>
@@ -77,20 +82,21 @@ const App = () => {
                                 </MenuItem>
                             </MenuList>
                         </Menu>
-
                     </Stack>
                 </Box>
                 <Routes>
                     <Route exact path='/' element={<TheDashboard />} />
+                    <Route path='/contacts/:id' element={<ContactDetails />} />
                     <Route path='/contacts' element={<TheContacts />} />
+                    <Route path='/groups' element={<TheGroups />} />
                 </Routes>
             </Router>
             <FormDialog />
             <CreateGroupDialog />
 
-            <footer style={{ backgroundColor: 'rgb(250 248 248)', padding: '2rem', textAlign: 'center', color: '#939393' }}>
+            {/* <footer style={{ backgroundColor: 'rgb(250 248 248)', padding: '2rem', textAlign: 'center', color: '#939393' }}>
                 <Typography sx={{ fontSize: '1.15rem' }}> &#169; 2023 Marilyn Negrete </Typography>
-            </footer>
+            </footer> */}
 
         </>
     )

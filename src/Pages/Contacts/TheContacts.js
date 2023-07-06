@@ -4,47 +4,21 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
+import { Link } from 'react-router-dom';
 import { AppCtx } from '../../context/appContext';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import ContactLi from './ContactLi';
-import ContactDetailsPanel from './ContactDetailsPanel';
 import EmptyStateUI from '../../components/EmptyUIState';
-
-function TabPanel(props) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`vertical-tabpanel-${index}`}
-            aria-labelledby={`vertical-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box sx={{ p: 3 }}>
-                    {children}
-                </Box>
-            )}
-        </div>
-    );
-}
+import Avatar from '@mui/material/Avatar';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import StarIcon from '@mui/icons-material/Star';
 
 const TheContacts = () => {
-    const { contacts, setContacts } = useContext(AppCtx);
+    const { contacts } = useContext(AppCtx);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredItems, setFilteredItems] = useState([]);
-    const [value, setValue] = useState(0);
-
-    const handleChangeTab = (event, newValue) => {
-        setValue(newValue);
-    };
-
-    const deleteContact = (item) => {
-        const updatedContacts = contacts.filter((contact) => contact.id !== item.id);
-        setContacts([...updatedContacts]);
-    }
 
     const handleChange = (e) => {
         setSearchTerm((e.target.value));
@@ -55,74 +29,44 @@ const TheContacts = () => {
         setFilteredItems(matches);
     }
 
-    const toggleStar = (theContactInfo, toggleStar) => {
-        const newContacts = contacts.map(contact => {
-            if (contact.id === theContactInfo.id) {
-                return { ...theContactInfo, 'isStared': toggleStar, updatedDate: new Date() }
-            }
-            return contact;
-        });
-
-        setContacts(newContacts);
-    }
-
     useEffect(() => {
         search();
     }, [searchTerm, contacts]);
 
     return (
         <>
-            <Grid container justifyContent='center'>
-                <Grid item xs={3} sx={{ margin: '2rem 0' }}>
-                    <TextField fullWidth label="Search" id="searchTerm" value={searchTerm} onChange={handleChange} />
-                </Grid>
-            </Grid>
-
             <Grid container direction='row' justifyContent='center'>
-                <Grid item xs={4}>
+                <Grid item xs={8}>
                     <Grid item>
+                        <Box sx={{ margin: '2rem 0' }}>
+                            <TextField fullWidth label="Search" id="searchTerm" value={searchTerm} onChange={handleChange} />
+                        </Box>
                         <Box display='flex' alignItems='center' justifyContent='space-between'>
                             <Box display='flex' alignItems='center'>
                                 <Typography sx={{ margin: '2rem 0' }}>All Contacts </Typography>
                                 <Chip label={`${contacts.length > 0 ? contacts.length : 0}`} sx={{ marginLeft: '.5rem' }} />
                             </Box>
                         </Box>
-                        <Box>
-                            <Tabs
-                                orientation="vertical"
-                                value={value}
-                                onChange={handleChangeTab}
-                                sx={{ borderRight: 1, borderColor: 'divider', minHeight: 800 }}
-                            >
-                                {filteredItems.map((item, i) => {
+                        <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
+                            <List>
+                                {filteredItems.length ? filteredItems.map(item => {
                                     return (
-                                        <Tab
-
-                                            key={item.id}
-                                            label={
-                                                <>
-                                                    <ContactLi
-                                                        key={item.id} data={item}
-                                                        identifier={i}
-                                                    />
-                                                </>
-
-                                            } id={`vertical-tab-${i}`} sx={{ minWidth: '100%' }}
-                                        />
+                                        <Link to={`${item.firstName}`} style={{ textDecoration: 'none', color: '#3d3d3d' }}>
+                                            <ListItem disablePadding>
+                                                <ListItemButton>
+                                                    <ListItemIcon>
+                                                        <Avatar alt={`${item.firstName} ${item.lastName}`} src="/static/images/avatar/1.jpg" />
+                                                    </ListItemIcon>
+                                                    <ListItemText primary={`${item.firstName} ${item.lastName}`} />
+                                                    {item.isStared ? <StarIcon sx={{ color: '#ffe600' }} /> : null}
+                                                </ListItemButton>
+                                            </ListItem>
+                                        </Link>
                                     )
-                                })}
-
-                                {!filteredItems.length ? <EmptyStateUI label='No Results' /> : null}
-                            </Tabs>
+                                }) : <EmptyStateUI label='Nothing Found' />}
+                            </List>
                         </Box>
                     </Grid>
-                </Grid>
-                <Grid item xs={4}>
-                    {filteredItems.map((item, i) => {
-                        return <TabPanel value={value} index={i} key={item.id}>
-                            <ContactDetailsPanel contactDetails={item} toggleStar={toggleStar} deleteContact={deleteContact} />
-                        </TabPanel>
-                    })}
                 </Grid>
             </Grid>
         </>

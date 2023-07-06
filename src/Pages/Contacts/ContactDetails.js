@@ -1,9 +1,10 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
-import ImageIcon from '@mui/icons-material/Image';
 import IconButton from '@mui/material/IconButton';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import StarIcon from '@mui/icons-material/Star';
@@ -28,27 +29,50 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import CakeIcon from '@mui/icons-material/Cake';
 import moment from 'moment';
 
-const ContactDetailsPanel = (props) => {
-    const { handleOpenEditDialog } = useContext(AppCtx);
-    const { contactDetails, toggleStar, deleteContact } = props;
-
+const ContactDetails = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const { handleOpenEditDialog, contacts, setContacts } = useContext(AppCtx);
+    const [contactDetails, setContactDetails] = useState({});
     const [open, setOpen] = useState(true);
 
     const handleClick = () => {
         setOpen(!open);
     };
 
+    const deleteContact = (item) => {
+        const updatedContacts = contacts.filter((contact) => contact.id !== item.id);
+        setContacts([...updatedContacts]);
+        navigate('/contacts');
+    }
+
+    const toggleStar = (theContactInfo) => {
+        const updatedContacts = contacts.map(contact => {
+            if (contact.id === theContactInfo.id) {
+                const updatedContact = { ...contact, 'isStared': !contact.isStared, updatedDate: new Date() }
+                setContactDetails(updatedContact)
+                return updatedContact;
+            }
+            return contact;
+        });
+
+        setContacts(updatedContacts);
+    }
+
     const map = <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d240863.9978504921!2d-99.45510693850875!3d19.39079237487473!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85ce0026db097507%3A0x54061076265ee841!2sMexico%20City%2C%20CDMX!5e0!3m2!1sen!2smx!4v1687906913347!5m2!1sen!2smx" style={{ border: 0, width: '100%', height: 300 }} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+
+    useEffect(() => {
+        setContactDetails(contacts.filter(contact => contact.firstName === id)[0]);
+    }, []);
 
     return (
         <>
-            <Grid container direction='column'>
-                <Grid item display='flex' alignItems='center' flexDirection='column'>
+            <Grid container justifyContent='center'>
+                <Grid xs={8} item display='flex' alignItems='center' flexDirection='column'>
                     <Avatar alt={`${contactDetails.firstName} ${contactDetails.lastName}`} src="/static/images/avatar/1.jpg" sx={{ width: 150, height: 150, fontSize: 60 }} />
                     <Typography sx={{ margin: '1rem 0', fontSize: 20 }}>{contactDetails.firstName}, {contactDetails.lastName}</Typography>
-
                     <Box>
-                        <IconButton onClick={() => toggleStar(contactDetails, contactDetails.isStared ? false : true)}>
+                        <IconButton onClick={() => toggleStar(contactDetails)}>
                             {contactDetails.isStared ? <StarIcon sx={{ color: '#ffe600' }} /> : <StarBorder />}
                         </IconButton>
                         <IconButton onClick={handleOpenEditDialog}>
@@ -59,8 +83,7 @@ const ContactDetailsPanel = (props) => {
                         </IconButton>
                     </Box>
                 </Grid>
-
-                <Grid item>
+                <Grid xs={8} item>
                     <List
                         sx={{ width: '100%' }}
                         component="nav"
@@ -125,7 +148,8 @@ const ContactDetailsPanel = (props) => {
             </Grid >
             <CreateNewDialog />
             <UpdateDialog contactData={contactDetails} />
-        </>)
+        </>
+    )
 }
 
-export default ContactDetailsPanel;
+export default ContactDetails;

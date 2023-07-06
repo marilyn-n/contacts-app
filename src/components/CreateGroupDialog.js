@@ -55,6 +55,7 @@ const CreateGroupDialog = () => {
         }
 
         setGroups([...groups, newGroup]);
+
     }
 
     useEffect(() => {
@@ -100,7 +101,7 @@ const CreateGroupDialog = () => {
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleGroupClose}>Cancel</Button>
-                <Button onClick={() => addNewGroup(group)} disabled={!group.groupName && !group.members.length}>Done</Button>
+                <Button onClick={(group) => addNewGroup(group)} disabled={!group.groupName && !group.members.length}>Done</Button>
             </DialogActions>
         </Dialog>
     )
